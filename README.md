@@ -65,3 +65,15 @@ npm run test-workspace          # a ready-made Managed workspace at http://local
 Working and tested end to end with real model APIs (Personal mode) and through an automated 54-check API test
 (Managed mode). The Windows executables aren't code-signed yet. Not built yet: adapters for CLI agents (Claude Code,
 Codex CLI, Gemini CLI), SSO for Managed mode, and annotator pay tracking.
+
+## License
+
+Arbiter is **source-available** under the [PolyForm Noncommercial License 1.0.0](LICENSE). You may use, modify and
+share it for noncommercial purposes: personal projects, research, education, hobby use, and use by charities,
+educational institutions and government bodies.
+
+**Commercial use requires a separate license.** That includes using Arbiter inside a company, or offering evaluations
+as a paid service (for example running Managed mode for clients). For commercial licensing, contact
+**kamdenmorgan108@gmail.com**.
+
+Copyright 2026 Kamden Morgan.

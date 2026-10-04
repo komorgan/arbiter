@@ -4,6 +4,10 @@ Managed mode is for evaluation teams: a company (or a vendor working for one) ru
 projects, and annotators review model outputs blind. Annotators never hold the data: everything stays on the server,
 and in the desktop app reviews open in a protected window.
 
+> **Licensing:** Arbiter is licensed for noncommercial use only ([PolyForm Noncommercial 1.0.0](../LICENSE)). Running
+> Managed mode in a company, or as a paid evaluation service, needs a commercial license: contact
+> kamdenmorgan108@gmail.com.
+
 - [How it fits together](#how-it-fits-together)
 - [Part 1: Deploy the server](#part-1-deploy-the-server)
   - [Option A: Docker Compose with automatic HTTPS (recommended)](#option-a-docker-compose-with-automatic-https-recommended)

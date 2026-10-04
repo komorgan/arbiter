@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "description": "Blind A/B evaluation harness for AI coding models",
+  "license": "PolyForm-Noncommercial-1.0.0",
   "type": "module",
   "scripts": {
     "arbiter": "node --no-warnings --import tsx src/cli.ts",
@@ -30,7 +31,7 @@
     "yaml": "^2.9.1"
   },
   "main": "dist/main.mjs",
-  "author": "Arbiter",
+  "author": "Kamden Morgan <kamdenmorgan108@gmail.com>",
   "build": {
     "appId": "com.arbiter.desktop",
     "productName": "Arbiter",
