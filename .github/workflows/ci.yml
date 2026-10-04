@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      # The desktop toolchain isn't needed to typecheck, bundle or test the server.
+      ELECTRON_SKIP_BINARY_DOWNLOAD: "1"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: UI syntax
+        run: for f in public/*.js; do node --check "$f"; done
+
+      - name: Build desktop and server bundles
+        run: node scripts/build.mjs
+
+      - name: Managed end-to-end test
+        run: |
+          # GitHub runners have Docker, so sandboxes run in containers as the runner's own user (the Linux path).
+          node --no-warnings dist/arbiter.mjs server --port 8094 --home "$RUNNER_TEMP/arb-e2e" > server.log 2>&1 &
+          for i in $(seq 1 60); do grep -q "annotators:" server.log && break; sleep 1; done
+          code=$(grep -A2 "one-time code" server.log | tail -1 | tr -d ' \r')
+          node scripts/e2e/managed-api.mjs "$code"
+
+      - name: Server log
+        if: always()
+        run: cat server.log || true

@@ -1,0 +1,19 @@
+id: fix-sum
+title: Fix sum() and add mean()
+tags: [bugfix, javascript]
+prompt: |
+  The `sum` function in sum.js returns wrong results. Fix it.
+  Then add and export a `mean(xs)` function that returns the arithmetic mean of an
+  array of numbers, or NaN for an empty array. Tests are in test.js (run: node test.js).
+rubric: code-review
+env:
+  image: node:22-bookworm-slim   # used by the Docker sandbox
+limits:
+  wallClockSec: 300
+  maxCostUsd: 0.50
+  maxToolCalls: 30
+checks:
+  - id: tests
+    kind: test
+    cmd: node test.js
+scopeGlobs: ["sum.js"]           # files the task is expected to touch; others count as out of scope

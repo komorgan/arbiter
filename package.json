@@ -1,0 +1,73 @@
+{
+  "name": "arbiter",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Blind A/B evaluation harness for AI coding models",
+  "type": "module",
+  "scripts": {
+    "arbiter": "node --no-warnings --import tsx src/cli.ts",
+    "serve": "node --no-warnings --import tsx src/cli.ts serve",
+    "build": "node scripts/build.mjs",
+    "desktop": "npm run build && electron .",
+    "icon": "electron scripts/make-icon.mjs",
+    "dist": "npm run build && electron-builder --win",
+    "typecheck": "tsc --noEmit",
+    "build:server": "node scripts/build.mjs --server",
+    "server": "node --no-warnings --import tsx src/cli.ts server",
+    "test-workspace": "node scripts/test-workspace.mjs"
+  },
+  "engines": {
+    "node": ">=22.13"
+  },
+  "devDependencies": {
+    "@anthropic-ai/sdk": "^0.128.0",
+    "@types/node": "^26.6.3",
+    "electron": "^44.4.5",
+    "electron-builder": "^26.15.3",
+    "esbuild": "^0.28.2",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "yaml": "^2.9.1"
+  },
+  "main": "dist/main.mjs",
+  "author": "Arbiter",
+  "build": {
+    "appId": "com.arbiter.desktop",
+    "productName": "Arbiter",
+    "directories": {
+      "output": "release",
+      "buildResources": "build"
+    },
+    "files": [
+      "dist/main.mjs",
+      "dist/preload.cjs",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "public",
+        "to": "public"
+      },
+      {
+        "from": "examples",
+        "to": "examples"
+      }
+    ],
+    "asar": true,
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ],
+      "icon": "build/icon.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "artifactName": "Arbiter-Setup-${version}.exe"
+    },
+    "portable": {
+      "artifactName": "Arbiter-${version}-portable.exe"
+    }
+  }
+}

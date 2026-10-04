@@ -1,0 +1,14 @@
+# Dependencies and build output
+node_modules/
+dist/
+release/
+
+# Local data dirs and test output
+.arbiter-dev/
+*.log
+
+# Machine-specific settings and notes
+.claude/
+CLAUDE.local.md
+.env
+deploy/.env

@@ -1,0 +1,4 @@
+{$ARBITER_DOMAIN} {
+	encode gzip
+	reverse_proxy arbiter:8080
+}

@@ -1,0 +1,42 @@
+# Arbiter Server behind Caddy (automatic HTTPS).
+#
+# 1. Point DNS for your domain at this machine, then set ARBITER_DOMAIN below (and in Caddyfile, via the env var).
+# 2. Create the data dir on the host:   sudo mkdir -p /srv/arbiter && sudo chown 1000:1000 /srv/arbiter
+# 3. Generate a master key once and keep it safe (losing it makes stored API keys unreadable):
+#        openssl rand -base64 32      -> put it in a .env file next to this one as ARBITER_MASTER_KEY=...
+# 4. Find the Docker socket's group id:   stat -c %g /var/run/docker.sock   -> DOCKER_GID in .env
+# 5. docker compose up -d, then `docker compose logs arbiter` shows the one-time admin setup code.
+
+services:
+  arbiter:
+    build: ..
+    restart: unless-stopped
+    environment:
+      ARBITER_PUBLIC_URL: https://${ARBITER_DOMAIN}
+      ARBITER_TRUST_PROXY: "1"
+      ARBITER_MASTER_KEY: ${ARBITER_MASTER_KEY}
+    group_add:
+      - "${DOCKER_GID}"
+    volumes:
+      # Same path inside and out: sandbox containers mount workspaces by host path.
+      - /srv/arbiter:/srv/arbiter
+      - /var/run/docker.sock:/var/run/docker.sock
+    expose:
+      - "8080"
+
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      ARBITER_DOMAIN: ${ARBITER_DOMAIN}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+    depends_on:
+      - arbiter
+
+volumes:
+  caddy_data:

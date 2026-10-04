@@ -1,0 +1,4 @@
+# Normalize line endings in the repo; check out text files with LF everywhere (scripts and YAML stay portable).
+* text=auto eol=lf
+*.png binary
+*.ico binary
